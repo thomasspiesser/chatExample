@@ -1,0 +1,25 @@
+<head>
+  <title>chatExample</title>
+</head>
+
+<body>
+  <h1>Welcome to my example Meteor chat application!</h1>
+
+  {{> messages}}
+</body>
+
+
+
+<template name="messages">
+	{{#each messages}}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{userName}}</h3>
+        <small>{{timestamp}}</small>
+      </div>
+      <div class="panel-body">
+        {{message}}
+      </div>
+    </div>
+  {{/each}}
+</template>

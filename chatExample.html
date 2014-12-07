@@ -3,18 +3,34 @@
 </head>
 
 <body>
-  <h1>Welcome to my example Meteor chat application!</h1>
+  <h1 style="text-align: center;">Welcome to my example Meteor chat application!</h1>
+  {{#if error}}
+    <div class="alert alert-danger">{{error}}</div>
+  {{/if}}
 
-  {{> messages}}
+	<div class="ui grid">
+
+	<div class="three column row">
+		<div class="column"></div>
+		<div class="column">
+			  {{#unless currentUser}}
+					{{> login}}
+				{{else}}
+					{{> logout}}
+			  	{{> messages}}
+			  {{/unless}}
+		</div>
+		<div class="column"></div>
+  </div>
+  </div>
+
 </body>
-
-
 
 <template name="messages">
 	{{#each messages}}
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">{{userName}}</h3>
+        <h3 class="panel-title">{{username}}</h3>
         <small>{{timestamp}}</small>
       </div>
       <div class="panel-body">
@@ -22,4 +38,31 @@
       </div>
     </div>
   {{/each}}
+  <!-- <form class="form-inline" role="form" id="chatForm"> -->
+    <!-- <div class="form-group"> -->
+      <input type="text" class="form-control" id="inputField" title="Gib Deine Nachricht hier ein" placeholder="Deine neue Nachricht">
+    <!-- </div> -->
+    <button type="button" class="btn btn-default sendNewMessage">Senden</button>
+  <!-- </form> -->
+</template>
+
+<template name="login">
+	<!-- <form class="form-horizontal" role="form" id="loginForm"> -->
+    <!-- <div class="form-group"> -->
+      <!-- <div class="col-sm-12"> -->
+        <input class="form-control" type="text" id="username" value={{randomUsername}}>
+      <!-- </div> -->
+    <!-- </div> -->
+    <!-- <div class="form-group"> -->
+      <!-- <div class="col-sm-12"> -->
+        <input class="form-control" type="password" id="password" value={{randomPassword}}>
+      <!-- </div> -->
+    <!-- </div> -->
+    <!-- <button type="button" class="btn btn-block btn-primary" id="loginButton">Sign in</button> -->
+    <button type="button" class="btn btn-block btn-info" id="signUpButton">Sign up</button>
+  <!-- </form> -->
+</template>
+
+<template name="logout">
+	<button type="button" class="btn btn-block btn-info" id="logoutButton">Log out</button>
 </template>

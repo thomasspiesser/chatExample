@@ -12,15 +12,18 @@
 
 	<div class="three column row">
 		<div class="column"></div>
-		<div class="column">
+			<div class="column">
 			  {{#unless currentUser}}
 					{{> login}}
 				{{else}}
-					{{> logout}}
 			  	{{> messages}}
 			  {{/unless}}
+			</div>
+		<div class="column">
+			{{#if currentUser}}
+				{{> logout}}
+		  {{/if}}
 		</div>
-		<div class="column"></div>
   </div>
   </div>
 
@@ -39,19 +42,19 @@
     </div>
   {{/each}}
   <!-- <form class="form-inline" role="form" id="chatForm"> -->
-    <!-- <div class="form-group"> -->
-      <input type="text" class="form-control" id="inputField" title="Gib Deine Nachricht hier ein" placeholder="Deine neue Nachricht">
-    <!-- </div> -->
-    <button type="button" class="btn btn-default sendNewMessage">Senden</button>
+    <div class="ui action left input">
+      <input type="text" id="inputField" placeholder="type your message">
+    <div class="ui blue button sendNewMessage">Send</div>
+    </div>
   <!-- </form> -->
 </template>
 
 <template name="login">
 	<!-- <form class="form-horizontal" role="form" id="loginForm"> -->
     <!-- <div class="form-group"> -->
-      <!-- <div class="col-sm-12"> -->
-        <input class="form-control" type="text" id="username" value={{randomUsername}}>
-      <!-- </div> -->
+      <div class="input">
+        <input type="text" id="username" value={{randomUsername}}>
+      </div>
     <!-- </div> -->
     <!-- <div class="form-group"> -->
       <!-- <div class="col-sm-12"> -->
@@ -59,10 +62,10 @@
       <!-- </div> -->
     <!-- </div> -->
     <!-- <button type="button" class="btn btn-block btn-primary" id="loginButton">Sign in</button> -->
-    <button type="button" class="btn btn-block btn-info" id="signUpButton">Sign up</button>
+    <button type="button" class="ui teal basic button" id="signUpButton">Sign up</button>
   <!-- </form> -->
 </template>
 
 <template name="logout">
-	<button type="button" class="btn btn-block btn-info" id="logoutButton">Log out</button>
+	<button type="button" class="ui blue basic button" id="logoutButton">Log out</button>
 </template>

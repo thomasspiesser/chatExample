@@ -38,7 +38,7 @@ if (Meteor.isClient) {
 
   Template.messages.helpers({
     messages: function () {
-      return Messages.find( {}, { sort: { timestamp: -1 } })
+      return Messages.find( {}, { sort: { timestamp: 1 } })
     }
   });
 

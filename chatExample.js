@@ -62,6 +62,7 @@ if (Meteor.isClient) {
           else {
             $('#inputField').val("");
             Session.set( "createError", '' );
+            $("#messageContainer").animate({scrollTop:$("#messageContainer")[0].scrollHeight}, 1000);
           }
         });
       } else {

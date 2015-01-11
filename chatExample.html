@@ -30,6 +30,7 @@
 </body>
 
 <template name="messages">
+  <div id="messageContainer" style="padding:15px; max-height: 250px; overflow: scroll; box-shadow: inset 0px 0px 10px #888;">
 	{{#each messages}}
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -41,8 +42,9 @@
       </div>
     </div>
   {{/each}}
+  </div>
   <!-- <form class="form-inline" role="form" id="chatForm"> -->
-    <div class="ui action left input">
+    <div class="ui action left input" style="margin-top: 15px;">
       <input type="text" id="inputField" placeholder="type your message">
     <div class="ui blue button sendNewMessage">Send</div>
     </div>

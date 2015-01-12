@@ -3,71 +3,91 @@
 </head>
 
 <body>
-  <h1 style="text-align: center;">Welcome to my example Meteor chat application!</h1>
-  {{#if error}}
-    <div class="alert alert-danger">{{error}}</div>
-  {{/if}}
+  <h1 style="text-align: center;">Welcome to my Meteor chat example</h1>
+  <h3 style="text-align: center; margin-top:0px;">This is an example for an open chat. Try it!</h3>
 
 	<div class="ui grid">
-
-	<div class="three column row">
-		<div class="column"></div>
-			<div class="column">
+		<div class="ui five wide column"></div>
+			<div class="ui six wide column">
+        {{> errorMessage}}
 			  {{#unless currentUser}}
 					{{> login}}
 				{{else}}
 			  	{{> messages}}
 			  {{/unless}}
 			</div>
-		<div class="column">
+		<div class="ui five wide column">
 			{{#if currentUser}}
 				{{> logout}}
 		  {{/if}}
 		</div>
   </div>
-  </div>
 
 </body>
 
 <template name="messages">
-  <div id="messageContainer" style="padding:15px; max-height: 250px; overflow: scroll; box-shadow: inset 0px 0px 10px #888;">
+  <div id="messageContainer">
 	{{#each messages}}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">{{username}}</h3>
-        <small>{{timestamp}}</small>
+    <div class="ui divider"></div>
+    <div class="message">
+      <div class="message-head">
+        <div class="message-date">{{when}}</div>
+        <div class="user-name">{{username}} says:</div>
       </div>
-      <div class="panel-body">
-        {{message}}
-      </div>
+      <div class="message-body">{{message}}</div>
     </div>
   {{/each}}
   </div>
-  <!-- <form class="form-inline" role="form" id="chatForm"> -->
-    <div class="ui action left input" style="margin-top: 15px;">
+  <form class="ui form">
+    <div class="ui action left input" style="width:100%; margin-top: 15px;">
       <input type="text" id="inputField" placeholder="type your message">
-    <div class="ui blue button sendNewMessage">Send</div>
+      <div class="ui blue button sendNewMessage">Send</div>
     </div>
-  <!-- </form> -->
+  </form>
 </template>
 
 <template name="login">
-	<!-- <form class="form-horizontal" role="form" id="loginForm"> -->
-    <!-- <div class="form-group"> -->
-      <div class="input">
-        <input type="text" id="username" value={{randomUsername}}>
+  <div class="ui segment">
+  <form class="ui form">
+    <div class="two fields">
+      <div class="required field">
+        <label>Username</label>
+        <div class="ui icon input">
+          <input type="text" id="username" value={{randomUsername}}>
+          <i class="user icon"></i>
+        </div>
       </div>
-    <!-- </div> -->
-    <!-- <div class="form-group"> -->
-      <!-- <div class="col-sm-12"> -->
-        <input class="form-control" type="password" id="password" value={{randomPassword}}>
-      <!-- </div> -->
-    <!-- </div> -->
-    <!-- <button type="button" class="btn btn-block btn-primary" id="loginButton">Sign in</button> -->
-    <button type="button" class="ui teal basic button" id="signUpButton">Sign up</button>
-  <!-- </form> -->
+      <div class="required field">
+        <label>Password</label>
+        <div class="ui icon input">
+          <input type="password" id="password" value={{randomPassword}}>
+          <i class="lock icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="ui blue basic button" id="signUpButton">Sign in</button>
+  </form>
+  <div class="ui hidden clearing divider"></div>
+  <div class="ui hidden clearing divider"></div>
+
+  <div class="ui bottom attached small label">
+    To save you the hassle, I created a random username and password for you. Just hit sign in and have a look around!
+  </div>
+  </div>
 </template>
 
 <template name="logout">
-	<button type="button" class="ui blue basic button" id="logoutButton">Log out</button>
+  <button type="button" class="ui red basic button" id="logoutButton">Sign out</button>
+</template>
+
+<template name="errorMessage">
+	{{#if error}}
+    <div class="ui error message">
+      <div class="content">
+        <div class="header">Error</div>
+        <p>{{error}}</p>
+      </div>
+    </div>
+  {{/if}}
 </template>

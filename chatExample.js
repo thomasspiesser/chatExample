@@ -1,9 +1,25 @@
 Messages = new Meteor.Collection("messages");
 
+Meteor.methods({
+  insertMessage: function(message) {
+    var message = _.pick(message, 'message', 'user', 'username', 'timestamp');
+    check(message, {
+      message: String,
+      user: String,
+      username: String,
+      timestamp: Date});
+    Messages.insert(message);
+    Meteor.call('removeIfTooMany');
+  }
+});
+
 if (Meteor.isClient) {
-  Template.body.helpers({
+  Meteor.subscribe('messages');
+  
+
+  Template.errorMessage.helpers({
     error: function() {
-    return Session.get("createError");
+      return Session.get("createError");
     }
   });
 
@@ -27,7 +43,7 @@ if (Meteor.isClient) {
 
       Accounts.createUser({username: username, password : password}, function(err){
         if (err) {
-          Session.set( "createError", "Sorry, "+err.reason );
+          Session.set( "createError", err.reason );
         } else {
           Session.set( "createError", '' );
         }
@@ -36,14 +52,22 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.messages.rendered = function () {
+    $("#messageContainer").animate({scrollTop:$("#messageContainer")[0].scrollHeight}, 1000);
+  };
+
   Template.messages.helpers({
     messages: function () {
       return Messages.find( {}, { sort: { timestamp: 1 } })
+    },
+    when: function () {
+      return this.timestamp.toLocaleString();
     }
   });
 
   Template.messages.events({
-    'click .sendNewMessage': function (event, template) {
+    'click .sendNewMessage, submit .form': function (event, template) {
+      event.preventDefault()
       var text = template.find('#inputField').value;
       var user = Meteor.userId();
       var username = Meteor.user().username;
@@ -55,9 +79,9 @@ if (Meteor.isClient) {
           username: username,
           timestamp: new Date()
         };
-        Messages.insert(message, function (error, result) {
+        Meteor.call('insertMessage', message, function (error, result) {
           if (error) {
-            Session.set( "createError", "Sorry, "+err.reason );
+            Session.set( "createError", error.reason );
           }
           else {
             $('#inputField').val("");
@@ -66,7 +90,7 @@ if (Meteor.isClient) {
           }
         });
       } else {
-        Session.set( "createError", "Please, write something" );
+        Session.set( "createError", "Message may not be empty." );
       }
     return false;
     }
@@ -75,19 +99,29 @@ if (Meteor.isClient) {
   Template.logout.events({
     'click #logoutButton': function () {
       var id = Meteor.userId();
-      Meteor.logout;
+      Meteor.logout();
       Meteor.call('Remove', id);
     }
   });
 }
 
 if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
+  Meteor.publish("messages", function() {
+    if (!this.userId) return this.ready(); 
+    return Messages.find();
   });
   Meteor.methods({
     Remove: function (id) {
       Meteor.users.remove({_id: id});
+    },
+    removeIfTooMany: function () {
+      var messageCount = Messages.find( {} ).count();
+      var maxMessagesAllowed = 50;
+      if (messageCount > maxMessagesAllowed) {
+        var messages = Messages.find( {}, { sort: { timestamp: -1 }, skip: maxMessagesAllowed }).fetch();
+        var ids = _.pluck(messages, '_id');
+        Messages.remove({_id: {$in: ids} });
+      }
     }
   })
 }

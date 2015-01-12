@@ -1,5 +1,5 @@
 <head>
-  <title>chatExample</title>
+  <title>meteor-example-chat</title>
 </head>
 
 <body>
@@ -48,32 +48,32 @@
 
 <template name="login">
   <div class="ui segment">
-  <form class="ui form">
-    <div class="two fields">
-      <div class="required field">
-        <label>Username</label>
-        <div class="ui icon input">
-          <input type="text" id="username" value={{randomUsername}}>
-          <i class="user icon"></i>
+    <form class="ui form">
+      <div class="two fields">
+        <div class="required field">
+          <label>Username</label>
+          <div class="ui icon input">
+            <input type="text" id="username" value={{randomUsername}}>
+            <i class="user icon"></i>
+          </div>
+        </div>
+        <div class="required field">
+          <label>Password</label>
+          <div class="ui icon input">
+            <input type="password" id="password" value={{randomPassword}}>
+            <i class="lock icon"></i>
+          </div>
         </div>
       </div>
-      <div class="required field">
-        <label>Password</label>
-        <div class="ui icon input">
-          <input type="password" id="password" value={{randomPassword}}>
-          <i class="lock icon"></i>
-        </div>
-      </div>
+
+      <button type="button" class="ui blue basic button" id="signUpButton">Sign in</button>
+    </form>
+    <div class="ui hidden clearing divider"></div>
+    <div class="ui hidden clearing divider"></div>
+
+    <div class="ui bottom attached small label">
+      To save you the hassle, I created a random username and password for you. Just hit sign in and have a look around!
     </div>
-
-    <button type="button" class="ui blue basic button" id="signUpButton">Sign in</button>
-  </form>
-  <div class="ui hidden clearing divider"></div>
-  <div class="ui hidden clearing divider"></div>
-
-  <div class="ui bottom attached small label">
-    To save you the hassle, I created a random username and password for you. Just hit sign in and have a look around!
-  </div>
   </div>
 </template>
 

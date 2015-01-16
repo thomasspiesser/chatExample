@@ -41,7 +41,7 @@ if (Meteor.isClient) {
       var username = template.find('#username').value;
       var password = template.find('#password').value;
 
-      Accounts.createUser({username: username, password : password}, function(err){
+      Accounts.createUser({username: username, password: password}, function(err){
         if (err) {
           Session.set( "createError", err.reason );
         } else {
@@ -49,6 +49,13 @@ if (Meteor.isClient) {
         }
       });
       return false;
+    }
+  });
+
+  Tracker.autorun(function () {
+    var latest = Messages.find({}, { sort: { timestamp: -1 }, limit: 1 }).fetch();
+    if (latest.length) {
+      $("#messageContainer").animate({scrollTop:$("#messageContainer")[0].scrollHeight}, 1000);
     }
   });
 
@@ -62,6 +69,9 @@ if (Meteor.isClient) {
     },
     when: function () {
       return this.timestamp.toLocaleString();
+    },
+    ownMessage: function () {
+      return Meteor.userId() === this.user ? 'float: right; background-color:rgba(215, 44, 44, 0.3);':'';
     }
   });
 
@@ -86,13 +96,12 @@ if (Meteor.isClient) {
           else {
             $('#inputField').val("");
             Session.set( "createError", '' );
-            $("#messageContainer").animate({scrollTop:$("#messageContainer")[0].scrollHeight}, 1000);
           }
         });
       } else {
         Session.set( "createError", "Message may not be empty." );
       }
-    return false;
+      return false;
     }
   });
 

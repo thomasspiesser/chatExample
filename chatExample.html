@@ -1,5 +1,5 @@
 <head>
-  <title>meteor-example-chat</title>
+  <title>meteor-chat-example</title>
 </head>
 
 <body>
@@ -7,8 +7,8 @@
   <h3 style="text-align: center; margin-top:0px;">This is an example for an open chat. Try it!</h3>
 
 	<div class="ui grid">
-		<div class="ui five wide column"></div>
-			<div class="ui six wide column">
+		<div class="ui four wide column"></div>
+			<div class="ui eight wide column">
         {{> errorMessage}}
 			  {{#unless currentUser}}
 					{{> login}}
@@ -16,7 +16,7 @@
 			  	{{> messages}}
 			  {{/unless}}
 			</div>
-		<div class="ui five wide column">
+		<div class="ui four wide column">
 			{{#if currentUser}}
 				{{> logout}}
 		  {{/if}}
@@ -28,8 +28,8 @@
 <template name="messages">
   <div id="messageContainer">
 	{{#each messages}}
-    <div class="ui divider"></div>
-    <div class="message">
+    <!-- <div class="ui divider"></div> -->
+    <div class="message" style="{{ownMessage}}">
       <div class="message-head">
         <div class="message-date">{{when}}</div>
         <div class="user-name">{{username}} says:</div>
